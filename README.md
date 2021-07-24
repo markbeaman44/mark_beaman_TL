@@ -23,9 +23,15 @@ execute tests (run in background) runs all v1 api tests
 ```
 npm run cypress-run -- --spec tests/integration/rate_limiter.js
 ```
-execute tests (run in background) runs only rate limiter - due to remains mentioned below
+execute tests (run in background) runs only rate limiter (more info in Issues section)
 
+## Github-CI end-to-end tests
+```
+https://github.com/markbeaman44/mark_beaman_TL/actions/workflows/main.yml
+```
+It executes all test scenario - minus rate limiter. (more info in Issues section)
 
+One test will fail due to `limit 10 per request` as it give status 200 on limit 11 (more info in Issues section)
 
 ## Lints and fixes files
 ```
