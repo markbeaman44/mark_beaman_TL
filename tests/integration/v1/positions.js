@@ -29,7 +29,7 @@ describe('Test satelite positions via API GET requests', () => {
 
   const timestamp = []
   for (let i = 1; i <= 11; i++) {
-    it(`Should return results for ${i} comma delimited list of timestamps (10 limit)`, () => {
+    it(`Should ${i >= 11 ? 'not' : ''} return results for ${i} comma delimited list of timestamps (10 limit)`, () => {
       timestamp.push(`${i}436029902`)
 
       cy.getPositionsAPI('25544', { timestamps: timestamp.toString() }).then((response) => {
@@ -57,7 +57,7 @@ describe('Test satelite positions via API GET requests', () => {
   unitsData.forEach((data) => {
     const [id, eq, parameterOne, parameterTwo] = data
 
-    it('Should return unit of measurement & check converted calculations', () => {
+    it(`Should return unit measurement in ${parameterOne.units} & check converted calculations`, () => {
       cy.getPositionsAPI(id, parameterOne).then((response) => {
         firstValue = response.body[0].altitude
         expect(response.body[0].units).to.equal(parameterOne.units)
