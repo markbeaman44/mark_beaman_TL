@@ -28,7 +28,7 @@ describe('Test satelite positions via API GET requests', () => {
   })
 
   const timestamp = []
-  for (let i = 1; i <= 11; i++) {
+  for (let i = 1; i <= 10; i++) {
     it(`Should ${i >= 11 ? 'not' : ''} return results for ${i} comma delimited list of timestamps (10 limit)`, () => {
       timestamp.push(`${i}436029902`)
 
