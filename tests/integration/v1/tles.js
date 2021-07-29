@@ -11,7 +11,7 @@ describe('Test satelite TLE data via API GET requests', () => {
   statusData.forEach((data) => {
     const [id, statusCodes, parameters] = data
 
-    it(`Validate ${statusCodes} response status code`, () => {
+    it(`Should return ${statusCodes} response status code`, () => {
       cy.getTlesAPI(id, parameters).then((response) => {
         expect(response.status).to.equal(statusCodes)
       })
@@ -19,21 +19,17 @@ describe('Test satelite TLE data via API GET requests', () => {
   })
 
   const formatData = [
-    // [id, parameters, fixtureValues]
-    ['25544', { format: 'json' }, 'json_format.json'],
-    ['25544', { format: 'text' }, 'text_format.txt']
+    // [id, parameters, contentType]
+    ['25544', { format: 'json' }, 'application/json'],
+    ['25544', { format: 'text' }, 'text/plain']
   ]
 
   formatData.forEach((data) => {
-    const [id, parameters, fixtureValues] = data
+    const [id, parameters, contentType] = data
 
-    it(`Validate response data for specific format ${fixtureValues}`, () => {
+    it(`Should return content-type with format ${parameters.format}`, () => {
       cy.getTlesAPI(id, parameters).then((response) => {
-        cy.readFile(`tests/fixtures/${fixtureValues}`).then((jsonResults) => {
-          delete response.body.requested_timestamp
-          delete response.body.tle_timestamp
-          expect(response.body).to.deep.equal(jsonResults)
-        })
+        expect(response.headers['content-type']).to.equal(contentType)
       })
     })
   })
