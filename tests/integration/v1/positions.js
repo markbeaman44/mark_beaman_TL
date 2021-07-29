@@ -12,14 +12,14 @@ describe('Test satelite positions via API GET requests', () => {
   statusData.forEach((data) => {
     const [id, statusCodes, parameters] = data
 
-    it(`Validate ${statusCodes} response status code`, () => {
+    it(`Should return ${statusCodes} response status code`, () => {
       cy.getPositionsAPI(id, parameters).then((response) => {
         expect(response.status).to.equal(statusCodes)
       })
     })
   })
 
-  it('Validate response data for specific timestamp', () => {
+  it('Should return response data for specific timestamp', () => {
     cy.getPositionsAPI('25544', { timestamps: '1436029902' }).then((response) => {
       cy.readFile('tests/fixtures/p_ts_1436029902.json').then((jsonResults) => {
         expect(response.body).to.deep.equal(jsonResults)
@@ -29,7 +29,7 @@ describe('Test satelite positions via API GET requests', () => {
 
   const timestamp = []
   for (let i = 1; i <= 11; i++) {
-    it(`Validate ${i} comma delimited list of timestamps (10 limit)`, () => {
+    it(`Should ${i >= 11 ? 'not' : ''} return results for ${i} comma delimited list of timestamps (10 limit)`, () => {
       timestamp.push(`${i}436029902`)
 
       cy.getPositionsAPI('25544', { timestamps: timestamp.toString() }).then((response) => {
@@ -57,7 +57,7 @@ describe('Test satelite positions via API GET requests', () => {
   unitsData.forEach((data) => {
     const [id, eq, parameterOne, parameterTwo] = data
 
-    it('Validate unit measurement & check calculations', () => {
+    it(`Should return unit measurement in ${parameterOne.units} & check converted calculations`, () => {
       cy.getPositionsAPI(id, parameterOne).then((response) => {
         firstValue = response.body[0].altitude
         expect(response.body[0].units).to.equal(parameterOne.units)
